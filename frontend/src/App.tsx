@@ -1,39 +1,53 @@
-import { useEffect, useState } from "react";
-import viteLogo from "/vite.svg";
-import axios from "axios";
-import "./App.css";
+import { useState } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState("Vite + React");
+	const [title, setTitle] = useState('');
 
-  useEffect(() => {
-    axios.get("http://localhost:5050/").then((response) => {
-      setTitle(response.data);
-    });
-  }, []);
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-      </div>
-      <h1>{title}</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+	const handleClick = async () => {
+		await axios.get('http://localhost:5050/').then((response) => {
+			setTitle(response.data);
+		});
+	};
+	return (
+		<Root>
+			<Title>{title}</Title>
+			<Button onClick={handleClick}>Click me</Button>
+		</Root>
+	);
 }
+
+const Root = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+	background-color: #f5f5f5;
+`;
+const Title = styled.span`
+	padding: 10px 20px;
+	border: 1 px solid #601fc9;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: bold;
+	&:hover {
+		background-color: #ddd;
+	}
+`;
+
+const Button = styled.button`
+	padding: 10px 20px;
+	border: 1 px solid #601fc9;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: bold;
+	&:hover {
+		background-color: #ddd;
+	}
+`;
 
 export default App;
