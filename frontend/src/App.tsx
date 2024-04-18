@@ -1,12 +1,14 @@
 import { useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
+import { createInstance } from "./shared/api/createInstance";
 
 function App() {
   const [title, setTitle] = useState("");
 
   const handleClick = async () => {
-    await axios.get("http://localhost:5050/").then((response) => {
+    const instance = createInstance();
+
+    await instance.get("/api").then((response) => {
       setTitle(response.data);
     });
   };
