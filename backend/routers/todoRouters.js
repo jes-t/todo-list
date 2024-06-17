@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { db } from "../db/index.js";
 import { todoFieldsSchema } from "../models/todo-model.js";
+import { TodoDTO } from "../models/todoDTO.js";
 
 const router = new Router();
 
@@ -20,7 +21,7 @@ router.post("/", async (req, res) => {
     const body = await todoFieldsSchema.validate(req.body);
     const task = await db.todo.insertAsync(body);
 
-    res.send(task);
+    res.send(new TodoDTO(task));
   } catch ({ errors }) {
     res.status(400).send(errors);
   }
@@ -57,7 +58,7 @@ router.patch("/:id", async (req, res) => {
     );
 
     if (affectedDocuments) {
-      return res.send(affectedDocuments);
+      return res.send(new TodoDTO(affectedDocuments));
     } else {
       return res.status(404).send({ error: "Task not found" });
     }
