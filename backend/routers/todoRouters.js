@@ -9,7 +9,7 @@ const router = new Router();
 router.get("/", async (req, res) => {
   try {
     const allTodos = await db.todo.findAsync({});
-    res.send(allTodos);
+    res.send(allTodos.map((tasks) => new TodoDTO(tasks)));
   } catch (error) {
     res.status(500).send({ error: "Failed to receive tasks" });
   }
