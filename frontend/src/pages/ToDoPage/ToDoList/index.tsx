@@ -1,24 +1,14 @@
-import { Task } from 'src/shared/types';
 import styled from 'styled-components';
-import { TaskComponent } from './ui/Task';
-import { $tasks } from '../model/core';
+import { list, variant } from '@effector/reflect';
 import { Spinner } from 'src/shared/ui/Spinner/Spinner';
-import { reflect, variant } from '@effector/reflect';
-import { getTasksFx } from '../model/effects';
+import { getTasksFx } from '../model/toDoPage/effects';
+import { $tasks } from '../model/toDoPage/core';
+import { TaskComponent } from './ui/Task';
 
-interface ToDoListViewProps {
-	tasks: Task[];
-}
-
-function ToDoListView({ tasks }: ToDoListViewProps) {
+export function ToDoList() {
 	return (
 		<Root>
-			{tasks
-				.slice()
-				.reverse()
-				.map((task) => (
-					<TaskComponent key={task._id} task={task} />
-				))}
+			<TasksList />
 		</Root>
 	);
 }
@@ -34,12 +24,15 @@ const Root = styled.div`
 	overflow-y: auto;
 `;
 
-export const ToDoList = variant({
+const TasksList = variant({
 	if: getTasksFx.pending,
 	then: Spinner,
-	// @ts-expect-error: effector type issue
-	else: reflect({
-		view: ToDoListView,
-		bind: { tasks: $tasks },
+	else: list({
+		view: TaskComponent,
+		source: $tasks,
+		mapItem: {
+			task: (task) => task,
+		},
+		getKey: (task) => task.id,
 	}),
 });

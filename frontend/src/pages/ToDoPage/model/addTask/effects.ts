@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { createEffect } from 'effector';
-import { Task } from 'src/shared/types';
+import { Task } from '../toDoPage/types';
+import { axiosInstance } from 'src/shared/api/createInstance';
 
 interface newTask {
 	text: string;
@@ -9,9 +9,9 @@ interface newTask {
 
 export const addTaskFx = createEffect<newTask, Task>(async (task) => {
 	try {
-		const response = await axios.post('http://localhost:5000/todo', task);
+		const response = await axiosInstance.post('/todo', task);
 		return response.data;
 	} catch (error) {
-		throw new Error(String(error));
+		throw new Error(error as string);
 	}
 });

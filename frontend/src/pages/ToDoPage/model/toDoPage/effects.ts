@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { createEffect } from 'effector';
-import { Task } from 'src/shared/types';
+import { Task } from './types';
+import { axiosInstance } from 'src/shared/api/createInstance';
 
 export const getTasksFx = createEffect<void, Task[]>(async () => {
 	try {
-		const response = await axios.get('http://localhost:5000/todo');
+		const response = await axiosInstance.get('/todo');
 		return response.data;
 	} catch (error) {
 		throw new Error(error as string);

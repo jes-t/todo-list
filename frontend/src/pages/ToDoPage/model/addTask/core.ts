@@ -1,6 +1,6 @@
 import { createEvent, createStore, sample } from 'effector';
 import { addTaskFx } from './effects';
-import { $tasks } from '../../model/core';
+import { $tasks } from '../toDoPage/core';
 
 export const $taskText = createStore<string>('');
 
@@ -16,19 +16,19 @@ sample({
 sample({
 	clock: addTaskFx.doneData,
 	source: $tasks,
-	fn: (tasks, newTask) => [...tasks, newTask],
+	fn: (tasks, newTask) => [newTask, ...tasks],
 	target: $tasks,
 });
 
 sample({
-	clock: addTaskFx.done,
+	clock: addTaskFx.doneData,
 	fn: () => '',
 	target: $taskText,
 });
 
 sample({
-	source: $taskText,
 	clock: addedTask,
+	source: $taskText,
 	fn: (taskText) => ({
 		text: taskText,
 		is_checked: false,
