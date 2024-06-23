@@ -2,9 +2,9 @@ import { ChangeEvent } from 'react';
 import { AsyncButton } from 'src/shared/ui/Button/AsyncButton';
 import { TextInput } from 'src/shared/ui/TextInput/TextInput';
 import styled from 'styled-components';
-import { $taskText, addedTask, taskTextChanged } from './model/core';
+import { $taskText, addedTask, taskTextChanged } from '../model/addTask/core';
 import { reflect } from '@effector/reflect';
-import { addTaskFx } from './model/effects';
+import { addTaskFx } from '../model/addTask/effects';
 
 interface AddTaskViewProps {
 	text: string;
@@ -31,6 +31,7 @@ function AddTaskView({ text, changeText, isLoading }: AddTaskViewProps) {
 					onClick={addNewTask}
 					title="Add a task"
 					isLoading={isLoading}
+					spinnerSize="25px"
 				/>
 			</ButtonWrapper>
 		</Root>

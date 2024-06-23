@@ -1,24 +1,24 @@
-import { Task } from 'src/shared/types';
 import styled from 'styled-components';
 import { TaskComponent } from './ui/Task';
-import { $tasks } from '../model/core';
+import { reflect } from '@effector/reflect';
 import { Spinner } from 'src/shared/ui/Spinner/Spinner';
-import { reflect, variant } from '@effector/reflect';
-import { getTasksFx } from '../model/effects';
+import { getTasksFx } from '../model/toDoPage/effects';
+import { $tasks } from '../model/toDoPage/core';
+import { Task } from '../model/toDoPage/types';
 
 interface ToDoListViewProps {
 	tasks: Task[];
+	isLoading: boolean;
 }
 
-function ToDoListView({ tasks }: ToDoListViewProps) {
+function ToDoListView({ tasks, isLoading }: ToDoListViewProps) {
 	return (
 		<Root>
-			{tasks
-				.slice()
-				.reverse()
-				.map((task) => (
-					<TaskComponent key={task._id} task={task} />
-				))}
+			{isLoading ? (
+				<Spinner />
+			) : (
+				tasks.map((task) => <TaskComponent key={task.id} task={task} />)
+			)}
 		</Root>
 	);
 }
@@ -34,12 +34,7 @@ const Root = styled.div`
 	overflow-y: auto;
 `;
 
-export const ToDoList = variant({
-	if: getTasksFx.pending,
-	then: Spinner,
-	// @ts-expect-error: effector type issue
-	else: reflect({
-		view: ToDoListView,
-		bind: { tasks: $tasks },
-	}),
+export const ToDoList = reflect({
+	view: ToDoListView,
+	bind: { tasks: $tasks, isLoading: getTasksFx.pending },
 });

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Spinner = styled.div<{ size?: string }>`
 	display: inline-block;
-	width: ${({ size }) => size || '50px'};
-	height: ${({ size }) => size || '50px'};
+	width: ${({ size }) => size || '30px'};
+	height: ${({ size }) => size || '30px'};
 	border: 3px solid rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 	border-top: 3px solid #3498db;
