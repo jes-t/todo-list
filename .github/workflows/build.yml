@@ -24,7 +24,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
 
         run: |
-          ssh $SSH_USER@$SSH_HOST << 'EOF'
+          ssh ${{env.SSH_USER}}@${{env.SSH_HOST}} << 'EOF'
             cd todo-list
             git pull origin master
             cd frontend
