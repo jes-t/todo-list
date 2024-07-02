@@ -24,10 +24,9 @@ jobs:
             cd todo-list
             git pull origin master
             cd frontend
-            npm install
-            npm run build
+            yarn install
+            yarn run build
             cd ../backend
-            npm install
-            yarn start
+            yarn install
+            pm2 restart all
           EOF
-      

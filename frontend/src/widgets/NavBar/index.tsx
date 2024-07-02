@@ -16,7 +16,7 @@ export function NavBar() {
 const Brand = styled.span`
   font-weight: bold;
   margin-bottom: 30px;
-  color: red;
+  color: #1100ff;
 `;
 const Root = styled.div`
   display: flex;
